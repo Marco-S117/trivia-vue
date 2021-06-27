@@ -1,4 +1,4 @@
-import firebase from 'firebase'
+import firebase from 'firebase/app'
 import 'firebase/auth'
 
 if (!firebase.apps.length) {
@@ -12,6 +12,9 @@ if (!firebase.apps.length) {
   })
 }
 
-const auth = firebase.auth()
+firebase.auth().languageCode = 'en'
 
-export { auth }
+const auth = firebase.auth()
+const GoogleProvider = new firebase.auth.GoogleAuthProvider()
+
+export { auth, GoogleProvider }

@@ -38,6 +38,7 @@ export default {
   },
   mounted () {
     this.$nuxt.$on('open-drawer', () => { this.drawer = true })
+    this.$nuxt.$on('close-drawer', () => { this.drawer = false })
   },
   computed: {
     pages () {

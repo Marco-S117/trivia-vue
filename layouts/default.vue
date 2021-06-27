@@ -1,5 +1,6 @@
 <template>
   <v-app class="app-container">
+    <user-dialog />
     <app-header />
     <app-drawer />
     <v-main>
@@ -19,10 +20,11 @@
 import AppHeader from '@/components/layouts/Header'
 import AppDrawer from '@/components/layouts/Drawer'
 import AppFooter from '@/components/layouts/Footer'
+import UserDialog from '~/components/user/UserDialog'
 
 export default {
   name: 'DefaultTemplate',
-  components: { AppHeader, AppDrawer, AppFooter }
+  components: { AppHeader, AppDrawer, AppFooter, UserDialog }
 }
 </script>
 
