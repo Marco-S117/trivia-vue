@@ -101,7 +101,7 @@ export default {
       else if (settings.difficulty === 'hard') timer = (settings.amount / 4) * 60 * 1000
       else return
 
-      settings = { ...settings, timer }
+      settings = { ...settings, timer, startTime: new Date().getTime(), endTime: null }
 
       this.triviaSettings = { ...this.triviaSettings, settings }
       this.isTriviaStarted = true
@@ -225,6 +225,8 @@ export default {
         type: this.triviaSettings.settings.type,
         lastQuestionIndex: this.triviaSettings.currentQuestionIndex,
         totalQuestions: this.triviaSettings.settings.amount,
+        startTime: this.triviaSettings.settings.startTime,
+        endTime: new Date().getTime()
       }
       this.isTriviaStarted = false
       this.isTriviaEnded = true

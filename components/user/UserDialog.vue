@@ -64,30 +64,34 @@ export default {
     onGoogleLogin () {
       this.isLoading = true
       auth.signInWithPopup(GoogleProvider)
-        .then(() => {
-          this.dialog = false
-        })
+        .then((newUser) => { this.createNewUserDocument(newUser) })
         .catch((error) => { console.log(error) })
-        .finally(() => { this.isLoading = false })
     },
     onLogin (data) {
       this.isLoading = true
       auth.signInWithEmailAndPassword(data.email, data.password)
-        .then(() => {
-          this.dialog = false
-        })
+        .then(() => { this.dialog = false })
         .catch((error) => { console.log(error) })
         .finally(() => { this.isLoading = false })
     },
     onSignup (data) {
       this.isLoading = true
       auth.createUserWithEmailAndPassword(data.email, data.password)
-        .then(() => {
-          console.log(userCredential);
-          this.dialog = false
-        })
+        .then((newUser) => { this.createNewUserDocument(newUser) })
         .catch((error) => { console.log(error) })
-        .finally(() => { this.isLoading = false })
+    },
+    // TO DO: change url after deploy backend ...
+    createNewUserDocument (data) {
+      this.$axios.post('http://localhost:3000/api/users/create', {
+        params: {
+          id: data.user.uid,
+          email: data.user.email,
+          nickname: data.user.displayName
+        }
+      })
+      .then((response) => { this.dialog = false })
+      .catch((error) => { console.log('Error:', error) })
+      .finally(() => { this.isLoading = false })
     }
   }
 }

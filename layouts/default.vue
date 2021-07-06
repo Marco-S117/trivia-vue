@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { auth } from '@/plugins/firebase'
 import AppHeader from '@/components/layouts/Header'
 import AppDrawer from '@/components/layouts/Drawer'
 import AppFooter from '@/components/layouts/Footer'
@@ -24,7 +25,10 @@ import UserDialog from '~/components/user/UserDialog'
 
 export default {
   name: 'DefaultTemplate',
-  components: { AppHeader, AppDrawer, AppFooter, UserDialog }
+  components: { AppHeader, AppDrawer, AppFooter, UserDialog },
+  mounted () {
+    auth.onAuthStateChanged(user => { this.$nuxt.$emit('set-current-user', user) })
+  }
 }
 </script>
 

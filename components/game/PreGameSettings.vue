@@ -86,7 +86,7 @@ export default {
       categoryName: null,
       difficulty: null,
       type: null,
-      questionsAmount: [10, 20, 30, 40, 50],
+      questionsAmount: [1, 10, 20, 30, 40, 50],
       categories: [],
       difficulties: [
         { value: "easy", text: 'Easy' },

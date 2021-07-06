@@ -42,7 +42,7 @@ export default {
   },
   computed: {
     pages () {
-      let pages = this.$router.options.routes.filter(page => page.name !== 'index')
+      let pages = this.$router.options.routes.filter(page => page.name !== 'index' && page.name !== 'profile')
       pages.map((page) => {
         let icon = ''
         if (page.name === 'about') icon = 'mdi-information-outline'

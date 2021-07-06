@@ -2,10 +2,18 @@
   <v-list>
     <v-list-item>
       <v-list-item-avatar>
-        <v-icon :size="38" color="primary" v-text="'mdi-account-circle'" />
+        <nuxt-link v-if="!!currentUser" :to="{ name: 'profile' }">
+          <v-img
+            :lazy-src="currentUser.photoURL"
+            :src="currentUser.photoURL"
+            :width="38"
+            :height="38"
+          />
+        </nuxt-link>
+        <v-icon v-else :size="38" color="primary" v-text="'mdi-account-circle'" />
       </v-list-item-avatar>
       <v-list-item-content>
-        <v-list-item-title v-text="`Hi, ${user && (user.displayName || user.email) || 'Guest'} 👋🏻`" class="title" />
+        <v-list-item-title v-text="`Hi, ${!!currentUser && (currentUser.displayName || currentUser.email) || 'Guest'} 👋🏻`" class="title" />
         <v-list-item-subtitle>
           <v-fade-transition mode="out-in">
             <vue-countdown
@@ -25,11 +33,11 @@
         </v-list-item-subtitle>
       </v-list-item-content>
       <v-list-item-action>
-        <v-btn @click="!!user ? userLogout() : openLoginDialog()" icon>
+        <v-btn @click="!!currentUser ? userLogout() : openLoginDialog()" icon>
           <v-icon
             :size="22"
-            :color="!!user ? 'red' : 'primary'"
-            v-text="!!user ? 'mdi-logout' : 'mdi-login'"
+            :color="!!currentUser ? 'red' : 'primary'"
+            v-text="!!currentUser ? 'mdi-logout' : 'mdi-login'"
           />
         </v-btn>
       </v-list-item-action>
@@ -47,13 +55,13 @@ export default {
   components: { VueCountdown },
   data () {
     return {
+      currentUser: null,
       showToken: true,
-      expireDate: null,
-      user: null
+      expireDate: null
     }
   },
   mounted () {
-    auth.onAuthStateChanged(user => { this.user = user })
+    this.$nuxt.$on('set-current-user', (user) => { this.currentUser = user })
     this.$nuxt.$on('session-token-setted', () => { this.calcTokenExpires() })
     this.calcTokenExpires()
   },
@@ -62,7 +70,7 @@ export default {
     deleteCookie,
     userLogout () {
       auth.signOut().then(() => {
-        this.user = null
+        this.currentUser = null
         this.deleteSessionToken()
       }).catch((error) => { console.log(error) })
     },
