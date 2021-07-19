@@ -59,7 +59,7 @@ export default {
       )
     },
     sendScore () {
-      this.$axios.post('http://localhost:3000/api/games/create/', {
+      this.$axios.post('https://mp-trivia-vue-be.herokuapp.com/api/games/create/', {
         params: {
           score: this.score,
           difficulty: this.difficulty,

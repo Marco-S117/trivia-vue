@@ -102,7 +102,7 @@ export default {
   methods: {
     loadUserData () {
       this.$axios
-        .get(`http://localhost:3000/api/users/${this.currentUser.uid}`)
+        .get(`https://mp-trivia-vue-be.herokuapp.com/api/users/${this.currentUser.uid}`)
         .then((response) => {
           this.currentUser = { ...this.currentUser, data: response.data }
           this.inputModel = response.data.nickname
@@ -111,7 +111,7 @@ export default {
     },
     loadUserGamesStatics () {
       this.$axios
-        .get(`http://localhost:3000/api/users/${this.currentUser.uid}/games`)
+        .get(`https://mp-trivia-vue-be.herokuapp.com/api/users/${this.currentUser.uid}/games`)
         .then((response) => {
           this.currentUser = { ...this.currentUser, games: response.data }
         })
@@ -135,7 +135,7 @@ export default {
       if (!this.isEditing && this.inputModel !== this.currentUser.data.nickname) this.updateUserNickname()
     },
     updateUserNickname () {
-      this.$axios.post(`http://localhost:3000/api/users/${this.currentUser.uid}/update`, {
+      this.$axios.post(`https://mp-trivia-vue-be.herokuapp.com/api/users/${this.currentUser.uid}/update`, {
         params: {
           id: auth.currentUser.uid,
           nickname: this.inputModel

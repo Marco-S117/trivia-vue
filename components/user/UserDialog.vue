@@ -79,7 +79,7 @@ export default {
     },
     checkUserExists (user) {
       this.$axios
-        .get(`http://localhost:3000/api/users/${user.uid}`)
+        .get(`https://mp-trivia-vue-be.herokuapp.com/api/users/${user.uid}`)
         .then((response) => {
           if (!response.data) {
             this.createNewUserDocument(user)
@@ -92,7 +92,7 @@ export default {
         })
     },
     createNewUserDocument (data) {
-      this.$axios.post('http://localhost:3000/api/users/create', {
+      this.$axios.post('https://mp-trivia-vue-be.herokuapp.com/api/users/create', {
         params: {
           id: data.user.uid,
           email: data.user.email,
