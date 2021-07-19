@@ -17,7 +17,17 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'A simple PWA trivia made with Nuxt Js.' }
+      { hid: 'description', name: 'description', content: 'A simple PWA trivia made with Nuxt Js.' },
+      { hid: 'author', property: 'author', name: 'author', content: 'Marco Polino' },
+      { hid: 'og:type', property: 'og:type', name: 'og:type', content: 'website' },
+      { hid: 'og:site_name', property: 'og:site_name', name: 'og:site_name', content: 'Marco Polino Portfolio' },
+      { hid: 'og:title', property: 'og:title', name: 'og:title', content: 'Marco Polino Portfolio' },
+      { hid: 'og:description', property: 'og:description', name: 'og:description', content: 'A simple PWA trivia made with Nuxt Js.' },
+      { hid: 'og:url', property: 'og:url', name: 'og:url', content: 'https://trivia-vue-js.web.app' },
+      { hid: 'og:image', property: 'og:image', name: 'og:image', content: 'https://trivia-vue-js.web.app/trivia-og-image.jpg' },
+      { hid: 'ogimagetype', property: 'og:image:type', content: 'image/jpeg' },
+      { hid: 'ogimageheight', property: 'og:image:width', content: '1200' },
+      { hid: 'ogimagewidth', property: 'og:image:height', content: '675' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -89,9 +99,9 @@ export default {
       ogSiteName: 'Trivia Vue',
       ogTitle: 'Trivia Vue',
       ogDescription: 'A simple PWA trivia made with Nuxt Js.',
-      ogHost: 'https://mp-117-trivia-nuxt.netlify.app/',
-      ogImage: 'og-image.jpg',
-      ogUrl: 'https://mp-117-trivia-nuxt.netlify.app/'
+      ogHost: 'https://trivia-vue-js.web.app/',
+      ogUrl: 'https://trivia-vue-js.web.app/',
+      ogImage: 'https://trivia-vue-js.web.app/trivia-og-image.jpg'
     },
     workbox: {
       // /* workbox options */
