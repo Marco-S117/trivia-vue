@@ -28,6 +28,10 @@ export default {
   components: { AppHeader, AppDrawer, AppFooter, UserDialog },
   mounted () {
     auth.onAuthStateChanged(user => { this.$nuxt.$emit('set-current-user', user) })
+
+    // Global loading on axios request/response
+    this.$axios.onRequest(() => { this.$nuxt.$loading.start() })
+    this.$axios.onResponse(() => { this.$nuxt.$loading.finish() })
   }
 }
 </script>

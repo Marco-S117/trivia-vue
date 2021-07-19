@@ -1,6 +1,6 @@
 <template>
-  <v-dialog v-model="dialog" width="350" :persistent="isLoading">
-    <v-card :loading="isLoading" :loader-height="4">
+  <v-dialog v-model="dialog" width="350" :persistent="$nuxt.$loading.isLoading">
+    <v-card :loading="$nuxt.$loading.isLoading" :loader-height="4">
       <v-fade-transition mode="out-in">
         <div :key="showLogin">
           <v-card-title
@@ -53,7 +53,6 @@ export default {
   data () {
     return {
       dialog: false,
-      isLoading: false,
       showLogin: true
     }
   },
@@ -62,25 +61,36 @@ export default {
   },
   methods: {
     onGoogleLogin () {
-      this.isLoading = true
+      this.$nuxt.$loading.start()
       auth.signInWithPopup(GoogleProvider)
-        .then((newUser) => { this.createNewUserDocument(newUser) })
+        .then((newUser) => { this.checkUserExists(newUser.user) })
         .catch((error) => { console.log(error) })
     },
     onLogin (data) {
-      this.isLoading = true
+      this.$nuxt.$loading.start()
       auth.signInWithEmailAndPassword(data.email, data.password)
         .then(() => { this.dialog = false })
         .catch((error) => { console.log(error) })
-        .finally(() => { this.isLoading = false })
     },
     onSignup (data) {
-      this.isLoading = true
       auth.createUserWithEmailAndPassword(data.email, data.password)
-        .then((newUser) => { this.createNewUserDocument(newUser) })
+        .then((newUser) => { this.checkUserExists(newUser.user) })
         .catch((error) => { console.log(error) })
     },
-    // TO DO: change url after deploy backend ...
+    checkUserExists (user) {
+      this.$axios
+        .get(`http://localhost:3000/api/users/${user.uid}`)
+        .then((response) => {
+          if (!response.data) {
+            this.createNewUserDocument(user)
+          } else {
+            this.dialog = false
+          }
+        })
+        .catch((error) => {
+          console.log('Error:', error)
+        })
+    },
     createNewUserDocument (data) {
       this.$axios.post('http://localhost:3000/api/users/create', {
         params: {
@@ -91,7 +101,6 @@ export default {
       })
       .then((response) => { this.dialog = false })
       .catch((error) => { console.log('Error:', error) })
-      .finally(() => { this.isLoading = false })
     }
   }
 }

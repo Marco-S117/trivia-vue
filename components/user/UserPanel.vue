@@ -48,14 +48,14 @@
 <script>
 import { auth } from '@/plugins/firebase'
 import VueCountdown from '@chenfengyuan/vue-countdown'
-import { getCookie, deleteCookie } from '@/utils/cookies/ManageCookies'
+import { getCookie } from '@/utils/cookies/ManageCookies'
 
 export default {
   name: 'UserPanel',
   components: { VueCountdown },
   data () {
     return {
-      currentUser: null,
+      currentUser: auth.currentUser,
       showToken: true,
       expireDate: null
     }
@@ -67,24 +67,12 @@ export default {
   },
   methods: {
     getCookie,
-    deleteCookie,
     userLogout () {
-      auth.signOut().then(() => {
-        this.currentUser = null
-        this.deleteSessionToken()
-      }).catch((error) => { console.log(error) })
+      auth.signOut()
     },
     openLoginDialog () {
       this.$nuxt.$emit('close-drawer')
       this.$nuxt.$emit('open-user-dialog')
-    },
-    deleteSessionToken () {
-      this.deleteCookie('mp-trivia-nuxt-session-token-cookie')
-      this.expireDate = null
-      this.showToken = false
-      this.$nextTick(() => {
-        this.showToken = true
-      })
     },
     transformSlotProps(props) {
       const formattedProps = {}
@@ -99,6 +87,14 @@ export default {
       const END = Date.parse(localStorage.tokenExpires)
       const DIFF = END - NOW
       this.expireDate = DIFF
+    },
+    deleteSessionToken () {
+      this.deleteCookie('mp-trivia-nuxt-session-token-cookie')
+      this.expireDate = null
+      this.showToken = false
+      this.$nextTick(() => {
+        this.showToken = true
+      })
     }
   }
 }

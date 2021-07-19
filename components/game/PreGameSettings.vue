@@ -86,7 +86,7 @@ export default {
       categoryName: null,
       difficulty: null,
       type: null,
-      questionsAmount: [1, 10, 20, 30, 40, 50],
+      questionsAmount: [10, 20, 30, 40, 50],
       categories: [],
       difficulties: [
         { value: "easy", text: 'Easy' },
@@ -147,7 +147,6 @@ export default {
     },
     getSessionToken () {
       if (!this.sessionToken) {
-        this.$nuxt.$emit('start-loading')
         this.$axios
           .get('https://opentdb.com/api_token.php?command=request')
           .then((response) => {
@@ -160,14 +159,10 @@ export default {
           .catch((error) => {
             console.log('Error:', error)
           })
-          .finally(() => {
-            this.$nuxt.$emit('finish-loading')
-          })
       }
     },
     getCategories () {
       if (!this.categories.length) {
-        this.$nuxt.$emit('start-loading')
         this.$axios
           .get('https://opentdb.com/api_category.php')
           .then((response) => {
@@ -178,10 +173,7 @@ export default {
           .catch((error) => {
             console.log('Error:', error)
           })
-          .finally(() => {
-            this.tl.play()
-            this.$nuxt.$emit('finish-loading')
-          })
+          .finally(() => { this.tl.play() })
       }
     },
     onFormSubmit () {

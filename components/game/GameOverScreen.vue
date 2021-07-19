@@ -1,19 +1,18 @@
 <template>
   <div class="gameover-wrapper text-center">
-    <h1 class="mb-6">Game Over</h1>
-    <div v-if="!scoreWasSend">
-      <div v-if="!!currentUser">
-        Alredy logged in as {{ currentUser.displayName }}
-      </div>
-      <div v-else>
-        You must be logged in to send score.
-      </div>
-    </div>
-    <div v-else>
-      Score sended: {{ scoreWasSend }}
+    <h1>Game Over</h1>
+    <p>Congratulations, you have finished the game.</p>
+    <div class="my-6">
+      <v-fade-transition mode="out-in">
+        <div v-if="!scoreWasSend">
+          <div v-if="!!currentUser"><strong>{{ currentUser.displayName }}</strong>, you can save the score.</div>
+          <div v-else class="red--text">You must be logged in to send score.</div>
+        </div>
+      </v-fade-transition>
     </div>
     <div class="d-flex align-center justify-center mt-6">
-      <v-btn v-if="!!currentUser && !scoreWasSend" @click="sendScore" small class="mx-2">Send Score</v-btn>
+      <v-btn v-if="!currentUser && !scoreWasSend" @click="$nuxt.$emit('open-user-dialog')" small class="mx-2">Login</v-btn>
+      <v-btn v-if="!!currentUser && !scoreWasSend" @click="sendScore" small class="mx-2">Save Score</v-btn>
       <v-btn @click="newGame" small class="mx-2">Play Again</v-btn>
     </div>
   </div>
@@ -78,12 +77,7 @@ export default {
             this.scoreWasSend = true
           }
         })
-        .catch((error) => {
-          console.log('Error:', error)
-        })
-        .finally(() => {
-          this.$nuxt.$emit('finish-loading')
-        })
+        .catch((error) => { console.log('Error:', error) })
     },
     newGame () {
       this.$nuxt.$emit('play-again-button-clicked')

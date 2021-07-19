@@ -148,7 +148,6 @@ export default {
     onPreGameSubmit (params) {
       if (params) {
         const categoryName = params.categoryName
-        this.$nuxt.$emit('start-loading')
         this.isPreGame = false
         this.setTriviaSettings(params)
         delete params.categoryName
@@ -194,12 +193,7 @@ export default {
               this.isPreGame = true
             }
           })
-          .catch((error) => {
-            console.log('Error', error)
-          })
-          .finally(() => {
-            this.$nuxt.$emit('finish-loading')
-          })
+          .catch((error) => { console.log('Error', error) })
       }
     },
     onUserAnswered (isCorrect) {
@@ -234,6 +228,3 @@ export default {
   }
 }
 </script>
-
-<style>
-</style>
